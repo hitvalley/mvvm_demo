@@ -19,7 +19,7 @@ class IfNode extends ValleyNode {
     this.children.forEach(child => {
       if (!selected && child.check()) {
         selected = child;
-        act && child[`${act}Action`]();
+        // act && child[`${act}Action`]();
       }
     });
     return selected || this.default;
@@ -27,7 +27,8 @@ class IfNode extends ValleyNode {
 
   createAction() {
     super.createAction();
-    let child = this.check('create');
+    let child = this.check();
+    child.createAction();
     this.selected = child;
     return child.elements;
   }
@@ -37,9 +38,12 @@ class IfNode extends ValleyNode {
   }
 
   updateAction() {
-    let child = this.check('create');
-    this.selected.elements.forEach(element => element && element.remove());
-    this.selected = child;
+    let child = this.check();
+    if (child !== this.selected) {
+      child.createAction();
+      this.selected.elements.forEach(element => element && element.remove());
+      this.selected = child;
+    }
   }
 
 }
