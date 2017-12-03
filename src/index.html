@@ -1,0 +1,59 @@
+<meta charset="utf-8">
+<code id="id-code"></code>
+<script>
+var data = {
+  list: [{
+    name: 'beijing',
+    id: 1
+  }, {
+    name: 'shanghai',
+    id: 2
+  }],
+  title: 'city',
+  info: {
+    country: 'china',
+    author: 'gty'
+  }
+};
+const tpl = '\
+<header>{{title}}</header>\n\
+<ul>\n\
+  {{each list as item,index}}\n\
+  <li>\n\
+    <a href="/page?id={{item.id}}">\n\
+      <span>{{index}}</span>\n\
+      -\n\
+      <span>{{item.name}}</span>\n\
+    </a>\n\
+  </li>\n\
+  {{/each}}\n\
+</ul>\n\
+<footer>\n\
+  {{each info as value,key}}\n\
+    <p>{{value}}</p>\n\
+  {{/each}}\n\
+</footer>';
+</script>
+<script src="utils/type.js"></script>
+
+<script src="ob/ob.js"></script>
+<script src="ob/watcher.js"></script>
+
+<script src="tpl-node.js"></script>
+<script src="parse-tpl.js"></script>
+<script src="valley-node.js"></script>
+
+
+<script>
+document.querySelector('#id-code').innerText = tpl;
+
+var node = parseHtml(tpl);
+
+var $ob = observe(data);
+var $data = handleData(data);
+var $watcher = watchData(data);
+// var dataOb = setDataObserver(data);
+
+init(node, data);
+</script>
+

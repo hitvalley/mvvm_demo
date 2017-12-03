@@ -1,0 +1,71 @@
+<code id="id-code">
+</code>
+<script>
+var data = {
+  list: [{
+    name: 'beijing',
+    id: 1
+  }, {
+    name: 'shanghai',
+    id: 2
+  }],
+  title: 'city',
+  info: {
+    country: 'china'
+  },
+  author: 'valley'
+};
+var tpl = '\
+<header>{{title}}</header>\n\
+<p>from {{if author === "valley"}}self{{else}}other{{/if}}</p>\n\
+<ul>\n\
+  {{each list as item,index}}\n\
+  <li>\n\
+    <a href="/page?id={{item.id}}">\n\
+      <span>{{index}}</span>\n\
+      -\n\
+      <span>{{item.name}}</span>\n\
+    </a>\n\
+  </li>\n\
+  {{/each}}\n\
+</ul>\n\
+<footer>\n\
+  {{each info as value,key}}\n\
+    <p>{{value}}</p>\n\
+  {{/each}}\n\
+</footer>';
+</script>
+<script src="./data/type.js"></script>
+<script src="./data/leaf.js"></script>
+<script src="./data/transform-data.js"></script>
+<script src="./data/watcher.js"></script>
+<script src="./data/observer.js"></script>
+<script src="./data/index.js"></script>
+
+<script src="./tpl/tpl-node.js"></script>
+<script src="./tpl/parse-tpl.js"></script>
+
+<script src="./element/valley-node.js"></script>
+<script src="./element/tag-node.js"></script>
+<script src="./element/text-node.js"></script>
+<script src="./element/var-node.js"></script>
+<script src="./element/each-node.js"></script>
+<script src="./element/item-node.js"></script>
+<script src="./element/if-node.js"></script>
+<script src="./element/case-node.js"></script>
+
+<script src="./index.js"></script>
+<script>
+document.querySelector('#id-code').innerText = tpl;
+// var $data = observe(data);
+// var $tplData = transformData(data);
+// var $handler = getObserveHandler(data);
+// var $watcher = watchData(data);
+var { $data, $leafData } = initData(data);
+
+var tplNode = parseHtml(tpl);
+
+var vnode = initNodeTree(tplNode, $leafData);
+let element = vnode.createAction();
+document.body.appendChild(element);
+</script>
